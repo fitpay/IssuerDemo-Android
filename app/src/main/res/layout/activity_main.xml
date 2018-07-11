@@ -33,4 +33,16 @@
         android:layout_height="wrap_content"
         android:text="Submit" />
 
+    <Button
+        android:id="@+id/btnDecline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Decline" />
+
+    <Button
+        android:id="@+id/btnFailure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Failure" />
+
 </LinearLayout>

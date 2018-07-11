@@ -67,6 +67,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.btnDecline)
+    void decline() {
+            String authResponse = "declined";
+            String authCode = null;
+
+            finishActivity(authResponse, authCode);
+    }
+
+    @OnClick(R.id.btnFailure)
+    void failure() {
+        String authResponse = "failure";
+        String authCode = null;
+
+        finishActivity(authResponse, authCode);
+    }
+
     private void finishActivityError(String error) {
         Intent intent = new Intent();
         intent.putExtra("STEP_UP_ERROR", error);
