@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean canSkipWithSuccess;
 
-    private static String VISA_AUTH_CODE_KEY = "";
-    private static String VISA_RESPONSE_KEY = "";
-    private static String MASTER_CARD_AUTH_CODE_KEY = "";
-    private static String MASTER_CARD_RESPONSE_KEY = "";
+    private String VISA_AUTH_CODE_KEY = "STEP_UP_AUTH_CODE";
+    private String VISA_RESPONSE_KEY = "STEP_UP_RESPONSE";
+    private String MASTER_CARD_AUTH_CODE_KEY = "TAV";
+    private String MASTER_CARD_RESPONSE_KEY = "issuerMobileAppAuthResponse";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,14 +139,14 @@ public class MainActivity extends AppCompatActivity {
         String issuerType = (String) issuer_list.getSelectedItem();
 
         if (issuerType.equals("VISA")) {
-            result.putExtra("STEP_UP_RESPONSE", authResponse);
+            result.putExtra(VISA_RESPONSE_KEY, authResponse);
             if (authCode != null) {
-                result.putExtra("STEP_UP_AUTH_CODE", authCode);
+                result.putExtra(VISA_AUTH_CODE_KEY, authCode);
             }
         } else {
-            result.putExtra("issuerMobileAppAuthResponse", authResponse);
+            result.putExtra(MASTER_CARD_RESPONSE_KEY, authResponse);
             if (authCode != null) {
-                result.putExtra("TAV", authCode);
+                result.putExtra(MASTER_CARD_AUTH_CODE_KEY, authCode);
             }
         }
         setResult(RESULT_OK, result);
