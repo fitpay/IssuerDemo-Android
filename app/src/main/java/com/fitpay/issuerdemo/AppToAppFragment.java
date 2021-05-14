@@ -9,28 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class AppToAppFragment extends Fragment {
 
-    @BindView(R.id.etPassword)
-    EditText etPassword;
-    @BindView(R.id.issuer_list)
-    Spinner issuer_list;
-    @BindView(R.id.response_type)
-    Spinner response_type;
-    @BindView(R.id.request)
-    TextView request;
+    private EditText etPassword;
+    private Spinner issuer_list;
+    private Spinner response_type;
+    private TextView request;
+    private Button btnSubmit;
 
     private boolean canSkipWithSuccess;
     private Activity activity;
@@ -44,7 +38,8 @@ public class AppToAppFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_app_to_app, container, false);
-        ButterKnife.bind(this, view);
+
+        initViews(view);
 
         activity = getActivity();
         intent = activity.getIntent();
@@ -72,6 +67,22 @@ public class AppToAppFragment extends Fragment {
         return view;
     }
 
+    private void initViews(View view) {
+        etPassword = view.findViewById(R.id.etPassword);
+        issuer_list = view.findViewById(R.id.issuer_list);
+        response_type = view.findViewById(R.id.response_type);
+        request = view.findViewById(R.id.request);
+        btnSubmit = view.findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(v -> {
+            if (canSkipWithSuccess) {
+                handleAutomaticFlow();
+                return;
+            }
+
+            handleAuthCodeFlow();
+        });
+    }
+
     void setupSpinners() {
         String[] issuerItems = new String[]{"VISA", "MASTERCARD", "MAESTRO"};
         String[] responseItems = new String[]{"Approved", "Declined", "Failure"};
@@ -80,16 +91,6 @@ public class AppToAppFragment extends Fragment {
         issuer_list.setAdapter(issuerAdapter);
         ArrayAdapter<String> responseAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, responseItems);
         response_type.setAdapter(responseAdapter);
-    }
-
-    @OnClick(R.id.btnSubmit)
-    void submit() {
-        if (canSkipWithSuccess) {
-            handleAutomaticFlow();
-            return;
-        }
-
-        handleAuthCodeFlow();
     }
 
     private void handleAutomaticFlow() {
