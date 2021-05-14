@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Issuer" />
+            android:text="Card Type" />
 
         <Spinner
             android:id="@+id/issuer_list"

@@ -14,13 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import butterknife.ButterKnife;
-import butterknife.BindView;
-import butterknife.OnClick;
 
 public class PushProvisioningFragment extends Fragment {
 
@@ -42,14 +39,11 @@ public class PushProvisioningFragment extends Fragment {
     private final String PVL_PRIVATE_LABEL = "PVL-1E8GTJ94-9D5T-96MOWV36-56AZN95Y8DUL";
     private final String VISA = "eyJraWQiOiJhMjAwOTRjYy0yMTE1LTQzZTgtYjZkOS05Y2ZkMTYxODQwNWYiLCJjdHkiOiJhcHBsaWNhdGlvbi9qc29uIiwiZW5jIjoiQTI1NkdDTSIsInRhZyI6IldCbnZnaHZ4Vk9SNV9XSUh3TXBEaHciLCJhbGciOiJBMjU2R0NNS1ciLCJpdiI6Ill1ZHpGUW92emdkdGlheFAifQ.eMz0qvnyrK3sPpg9pgcc3M9cNDJDuGogKxO5J7QZX6k.z9b1YlXvI0YigapnwmrN6A.nZOTwdx5DlcarSPe_Y8yzjMH0lAhpNMvZwEHbojYD3WTc6sMjvs_m4kpf-ewpB6pzWQ_uSW93HBZPEPmWvRbhgFIk7c_xOaESk2f85S46dgJo_cRTso_jJXRVjQuqizabyOGM-Mnt5a1RfH6QvCSWrEKIV0NbtTjbXFrhcyRgaG-i8moa5lOMOuTLd4QHz4DF32ZC_aG5OQ5M7o8l_su7L7WEXgsu3f7TDc5r6Biyaei95pDwMZMaKIFFJWiBl0yEbJozA.lwpuG0VYDMh01CkiQw";
 
-    @BindView(R.id.issuer_list)
-    Spinner issuerList;
-    @BindView(R.id.callback_url_et)
-    EditText callBackUrlEt;
-    @BindView(R.id.callback_required_chk)
-    CheckBox callbackUrlRequired;
-    @BindView(R.id.complete_issuer_app_act_chk)
-    CheckBox completeIssuerAppActivation;
+    private Spinner issuerList;
+    private EditText callBackUrlEt;
+    private CheckBox callbackUrlRequired;
+    private CheckBox completeIssuerAppActivation;
+    private Button btnSend;
 
     private Activity activity;
     private StringBuilder deepLink = new StringBuilder();
@@ -60,10 +54,30 @@ public class PushProvisioningFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_push_provisioning, container, false);
-        ButterKnife.bind(this, view);
+        initViews(view);
         activity = getActivity();
         setupViews();
         return view;
+    }
+
+    private void initViews(View view) {
+        issuerList = view.findViewById(R.id.issuer_list);
+        callBackUrlEt = view.findViewById(R.id.callback_url_et);
+        callbackUrlRequired = view.findViewById(R.id.callback_required_chk);
+        completeIssuerAppActivation = view.findViewById(R.id.complete_issuer_app_act_chk);
+        btnSend = view.findViewById(R.id.btnSend);
+        btnSend.setOnClickListener(v -> {
+            if (issuerList.getSelectedItemPosition() == 0) {
+                showNoIssuerSelectedDialog();
+                return;
+            }
+            String deepLink = getDeepLink();
+            Log.d(TAG, "Deep Link sent: " + deepLink);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(deepLink));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
     }
 
     void setupViews() {
@@ -128,20 +142,6 @@ public class PushProvisioningFragment extends Fragment {
                 completeIssuerAppActivationString.append(AMP).append(COMPLETE_ISSUER_APP_ACTIVATION).append(EQU).append("false");
             }
         });
-    }
-
-    @OnClick(R.id.btnSend)
-    void send() {
-        if (issuerList.getSelectedItemPosition() == 0) {
-            showNoIssuerSelectedDialog();
-            return;
-        }
-        String deepLink = getDeepLink();
-        Log.d(TAG, "Deep Link sent: " + deepLink);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(deepLink));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     private String getDeepLink() {

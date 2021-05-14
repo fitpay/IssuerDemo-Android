@@ -4,19 +4,17 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends FragmentActivity {
 
-    @BindView(R.id.bottom_navigation_view)
-    BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+
+        initViews();
 
         final AppToAppFragment appToAppFragment = new AppToAppFragment();
         final PushProvisioningFragment pushProvFragment = new PushProvisioningFragment();
@@ -30,6 +28,10 @@ public class MainActivity extends FragmentActivity {
             }
             return true;
         });
+    }
+
+    private void initViews() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
     }
 
     private void setCurrentFragment(Fragment fragment) {
