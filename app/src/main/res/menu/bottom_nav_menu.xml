@@ -6,6 +6,10 @@
         android:icon="@drawable/ic_app_to_app" />
     <item
         android:id="@+id/push_prov"
-        android:title="Push Provisioning"
+        android:title="Push Prov"
+        android:icon="@drawable/ic_push_prov"/>
+    <item
+        android:id="@+id/push_prov_custom"
+        android:title="Push Prov MC"
         android:icon="@drawable/ic_push_prov"/>
 </menu>

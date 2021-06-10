@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="issuers">
+        <item>Select one</item>
+        <item>Approved Mastercard</item>
+        <item>Additional Authorization Mastercard</item>
+        <item>Declined Mastercard</item>
+        <item>Error Mastercard</item>
+        <item>PVL Private Label</item>
+        <item>VISA</item>
+    </array>
+</resources>
