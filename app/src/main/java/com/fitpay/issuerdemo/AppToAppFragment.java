@@ -39,6 +39,8 @@ public class AppToAppFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_app_to_app, container, false);
 
+        ((MainActivity)getActivity()).setupActionBarTitle("App to app verification");
+
         initViews(view);
 
         activity = getActivity();
