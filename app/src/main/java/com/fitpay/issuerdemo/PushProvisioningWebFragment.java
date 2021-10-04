@@ -64,6 +64,16 @@ public class PushProvisioningWebFragment extends Fragment {
         webViewContainer.setWebChromeClient(new WebChromeClient());
         webViewContainer.setWebViewClient(new WebViewClient() {
             @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Log.d(TAG, "shouldOverrideUrlLoading");
+                String url = request.getUrl().toString();
+                if (url.contains(DEEP_LINK_BASE_URL)) {
+                    sendIntent(url);
+                }
+                return super.shouldOverrideUrlLoading(view, request);
+            }
+
+            @Override
             public void onPageFinished(WebView view, final String url) {
                 Log.d(TAG, "onPageFinished: " + url);
 
@@ -71,9 +81,6 @@ public class PushProvisioningWebFragment extends Fragment {
                 webViewContainer.loadUrl("javascript:(function() { document.getElementById('accessCodeInput').value = '" + ACCESS_CODE + "'; ;})()");
 
                 progressDialog.dismiss();
-                if (url.contains(DEEP_LINK_BASE_URL)) {
-                    sendIntent(url);
-                }
             }
 
             @Override
