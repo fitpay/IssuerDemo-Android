@@ -1,67 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/white"
+    android:background="@color/colorBackgroundDefault"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        style="@style/textStyle"
+        android:text="Card Type" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Card Type" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/spinner_border"
+        android:orientation="horizontal">
 
         <Spinner
             android:id="@+id/issuer_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"
-            android:layout_marginBottom="16dp"/>
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:layout_marginStart="5dp"
+            android:spinnerMode="dropdown" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Callback URL" />
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/arrow_down" />
 
-        <EditText
-            android:id="@+id/callback_url_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+    </RelativeLayout>
 
-        <CheckBox
-            android:id="@+id/callback_required_chk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Callback Required?"
-            android:layout_marginBottom="16dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        style="@style/textStyle"
+        android:text="Callback URL" />
 
-        <CheckBox
-            android:id="@+id/complete_issuer_app_act_chk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Complete Issuer App Activation?"
-            android:layout_marginBottom="16dp"/>
+    <EditText
+        android:id="@+id/callback_url_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
 
-        <Button
-            android:id="@+id/btnSend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Send"
-            android:layout_marginBottom="16dp"/>
+    <CheckBox
+        android:id="@+id/callback_required_chk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Callback Required?"
+        android:layout_marginBottom="16dp"/>
 
-    </LinearLayout>
+    <CheckBox
+        android:id="@+id/complete_issuer_app_act_chk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Complete Issuer App Activation?"
+        android:layout_marginBottom="16dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btnSend"
+        style="@style/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Send"
+        android:layout_marginBottom="16dp"/>
+
+</LinearLayout>

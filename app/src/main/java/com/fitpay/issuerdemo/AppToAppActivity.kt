@@ -2,33 +2,27 @@ package com.fitpay.issuerdemo
 
 import android.app.Activity
 import android.content.Intent
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.*
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 
-class AppToAppFragment : Fragment() {
+class AppToAppActivity : FragmentActivity() {
     private var etPassword: EditText? = null
     private var issuer_list: Spinner? = null
     private var response_type: Spinner? = null
     private var request: TextView? = null
     private var btnSubmit: Button? = null
     private var canSkipWithSuccess = false
-    private var activity: Activity? = null
-    private var intent: Intent? = null
     private val VISA_AUTH_CODE_KEY = "STEP_UP_AUTH_CODE"
     private val VISA_RESPONSE_KEY = "STEP_UP_RESPONSE"
     private val MASTER_CARD_AUTH_CODE_KEY = "TAV"
     private val MASTER_CARD_RESPONSE_KEY = "issuerMobileAppAuthResponse"
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_app_to_app, container, false)
-        (getActivity() as PushProvisioningActivity?)!!.setupActionBarTitle("App to app verification")
-        initViews(view)
-        activity = getActivity()
-        intent = activity!!.intent
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_app_to_app)
+        initViews()
 
         // setup spinners
         setupSpinners()
@@ -48,15 +42,14 @@ class AppToAppFragment : Fragment() {
                 else -> {}
             }
         }
-        return view
     }
 
-    private fun initViews(view: View) {
-        etPassword = view.findViewById(R.id.etPassword)
-        issuer_list = view.findViewById(R.id.issuer_list)
-        response_type = view.findViewById(R.id.response_type)
-        request = view.findViewById(R.id.request)
-        btnSubmit = view.findViewById(R.id.btnSubmit)
+    private fun initViews() {
+        etPassword = findViewById(R.id.etPassword)
+        issuer_list = findViewById(R.id.issuer_list)
+        response_type = findViewById(R.id.response_type)
+        request = findViewById(R.id.request)
+        btnSubmit = findViewById(R.id.btnSubmit)
         btnSubmit?.setOnClickListener {
             if (canSkipWithSuccess) {
                 handleAutomaticFlow()
@@ -68,9 +61,9 @@ class AppToAppFragment : Fragment() {
     fun setupSpinners() {
         val issuerItems = arrayOf("VISA", "MASTERCARD", "MAESTRO")
         val responseItems = arrayOf("Approved", "Declined", "Failure")
-        val issuerAdapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_dropdown_item, issuerItems)
+        val issuerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, issuerItems)
         issuer_list!!.adapter = issuerAdapter
-        val responseAdapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_dropdown_item, responseItems)
+        val responseAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, responseItems)
         response_type!!.adapter = responseAdapter
     }
 
@@ -99,15 +92,15 @@ class AppToAppFragment : Fragment() {
             }
             finishActivity(authResponse, authCode)
         } else {
-            Toast.makeText(activity, "password is empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "password is empty", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun finishActivityError(error: String) {
         val intent = Intent()
         intent.putExtra("STEP_UP_ERROR", error)
-        activity!!.setResult(Activity.RESULT_CANCELED, intent)
-        activity!!.finish()
+        setResult(Activity.RESULT_CANCELED, intent)
+        finish()
     }
 
     private fun finishActivity(authResponse: String, authCode: String?) {
@@ -124,7 +117,7 @@ class AppToAppFragment : Fragment() {
                 result.putExtra(MASTER_CARD_AUTH_CODE_KEY, authCode)
             }
         }
-        activity!!.setResult(Activity.RESULT_OK, result)
-        activity!!.finish()
+        setResult(Activity.RESULT_OK, result)
+        finish()
     }
 }

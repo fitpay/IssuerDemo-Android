@@ -16,16 +16,15 @@ import androidx.fragment.app.Fragment
 class PushProvisioningWebFragment : Fragment() {
     private var webViewContainer: WebView? = null
     private var progressDialog: ProgressDialog? = null
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_push_provisioning_web, container, false)
-        (activity as PushProvisioningActivity?)!!.setupActionBarTitle("Push Provisioning MC")
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_push_provisioning_web, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViews(view)
         configureWebView()
         loadUrl()
-        return view
     }
 
     private fun initViews(view: View) {
@@ -34,21 +33,21 @@ class PushProvisioningWebFragment : Fragment() {
 
     @SuppressLint("JavascriptInterface")
     private fun configureWebView() {
-        webViewContainer!!.setBackgroundColor(Color.WHITE)
-        webViewContainer!!.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
-        webViewContainer!!.clearCache(true)
-        webViewContainer!!.isScrollbarFadingEnabled = true
-        webViewContainer!!.isVerticalScrollBarEnabled = true
-        webViewContainer!!.settings.javaScriptEnabled = true
-        webViewContainer!!.settings.setAppCacheEnabled(false)
-        webViewContainer!!.settings.domStorageEnabled = true
+        webViewContainer?.setBackgroundColor(Color.WHITE)
+        webViewContainer?.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
+        webViewContainer?.clearCache(true)
+        webViewContainer?.isScrollbarFadingEnabled = true
+        webViewContainer?.isVerticalScrollBarEnabled = true
+        webViewContainer?.settings?.javaScriptEnabled = true
+        webViewContainer?.settings?.setAppCacheEnabled(false)
+        webViewContainer?.settings?.domStorageEnabled = true
     }
 
     private fun loadUrl() {
         progressDialog = ProgressDialog.show(activity, "Loading", "Please wait...", true)
         progressDialog?.setCancelable(false)
-        webViewContainer!!.webChromeClient = WebChromeClient()
-        webViewContainer!!.webViewClient = object : WebViewClient() {
+        webViewContainer?.webChromeClient = WebChromeClient()
+        webViewContainer?.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 Log.d(TAG, "shouldOverrideUrlLoading")
                 val url = request.url.toString()
@@ -60,8 +59,8 @@ class PushProvisioningWebFragment : Fragment() {
 
             override fun onPageFinished(view: WebView, url: String) {
                 Log.d(TAG, "onPageFinished: $url")
-                webViewContainer!!.loadUrl("javascript:(function() { document.getElementById('tridInput').value = '" + TRID + "'; ;})()")
-                webViewContainer!!.loadUrl("javascript:(function() { document.getElementById('accessCodeInput').value = '" + ACCESS_CODE + "'; ;})()")
+                webViewContainer?.loadUrl("javascript:(function() { document.getElementById('tridInput').value = '" + TRID + "'; ;})()")
+                webViewContainer?.loadUrl("javascript:(function() { document.getElementById('accessCodeInput').value = '" + ACCESS_CODE + "'; ;})()")
                 progressDialog?.dismiss()
             }
 
@@ -69,7 +68,7 @@ class PushProvisioningWebFragment : Fragment() {
                 Log.d(TAG, "onReceivedError: $error")
             }
         }
-        webViewContainer!!.loadUrl(BASE_URL)
+        webViewContainer?.loadUrl(BASE_URL)
     }
 
     private fun sendIntent(deepLink: String) {

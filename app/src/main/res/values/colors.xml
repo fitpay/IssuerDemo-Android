@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#444</color>
-    <color name="colorPrimaryDark">#F9AA11</color>
-    <color name="colorAccent">#F9AA33</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#11A9ED</color>
 
-    <color name="selected_bottom">#F9AA33</color>
-    <color name="unselected_bottom">#FFFFFF</color>
-    <color name="background_bottom">#344955</color>
+    <color name="selected_bottom">#11A9ED</color>
+    <color name="unselected_bottom">#C7C7C7</color>
+    <color name="background_bottom">#000000</color>
+
+    <color name="colorAccentDisabled">#661976d2</color>
+    <color name="colorButtonText">#E0FFFFFF</color>
+    <color name="colorText">#FFFFFF</color>
+    <color name="colorTextHint">#A6A6A6</color>
+
+    <color name="colorBackgroundDefault">#121212</color>
 </resources>

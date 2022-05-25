@@ -36,18 +36,59 @@ class PushProvisioningFragment : Fragment() {
     private var callbackUrlRequired: CheckBox? = null
     private var completeIssuerAppActivation: CheckBox? = null
     private var btnSend: Button? = null
-    private var activity: Activity? = null
     private var deepLink = StringBuilder()
     private val issuerString = StringBuilder()
     private val callbackUrlRequiredString = StringBuilder()
     private val completeIssuerAppActivationString = StringBuilder()
+
+    private val itemSelectedListener = object : OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            issuerString.setLength(0)
+            when (position) {
+                1 -> {
+                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
+                        .append(EQU)
+                        .append(APPROVED_MASTER_CARD)
+                }
+                2 -> {
+                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
+                        .append(EQU)
+                        .append(ADDITIONAL_AUT_MASTER_CARD)
+                }
+                3 -> {
+                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
+                        .append(EQU)
+                        .append(DECLINED_MASTER_CARD)
+                }
+                4 -> {
+                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
+                        .append(EQU)
+                        .append(ERROR_MASTER_CARD)
+                }
+                5 -> {
+                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
+                        .append(EQU)
+                        .append(PVL_PRIVATE_LABEL)
+                }
+                6 -> {
+                    issuerString.append(PUSH_DATA)
+                        .append(EQU)
+                        .append(VISA)
+                }
+            }
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {}
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_push_provisioning, container, false)
-        (getActivity() as PushProvisioningActivity?)!!.setupActionBarTitle("Push Provisioning")
+        return inflater.inflate(R.layout.fragment_push_provisioning, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViews(view)
-        activity = getActivity()
         setupViews()
-        return view
     }
 
     private fun initViews(view: View) {
@@ -73,43 +114,12 @@ class PushProvisioningFragment : Fragment() {
         // Spinner
         val res = resources
         val issuerItems = res.getStringArray(R.array.issuers)
-        val issuerAdapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_dropdown_item, issuerItems)
-        issuerList!!.adapter = issuerAdapter
-        issuerList!!.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-                issuerString.setLength(0)
-                if (position == 1) {
-                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
-                        .append(EQU)
-                        .append(APPROVED_MASTER_CARD)
-                } else if (position == 2) {
-                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
-                        .append(EQU)
-                        .append(ADDITIONAL_AUT_MASTER_CARD)
-                } else if (position == 3) {
-                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
-                        .append(EQU)
-                        .append(DECLINED_MASTER_CARD)
-                } else if (position == 4) {
-                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
-                        .append(EQU)
-                        .append(ERROR_MASTER_CARD)
-                } else if (position == 5) {
-                    issuerString.append(PUSH_ACCOUNT_RECEIPT)
-                        .append(EQU)
-                        .append(PVL_PRIVATE_LABEL)
-                } else if (position == 6) {
-                    issuerString.append(PUSH_DATA)
-                        .append(EQU)
-                        .append(VISA)
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+        val issuerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, issuerItems)
+        issuerList?.adapter = issuerAdapter
+        issuerList?.onItemSelectedListener = itemSelectedListener
 
         //Checkboxes
-        callbackUrlRequired!!.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+        callbackUrlRequired?.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             callbackUrlRequiredString.setLength(0)
             if (isChecked) {
                 callbackUrlRequiredString.append(AMP).append(CALLBACK_REQUIRED).append(EQU).append("true")
@@ -117,7 +127,7 @@ class PushProvisioningFragment : Fragment() {
                 callbackUrlRequiredString.append(AMP).append(CALLBACK_REQUIRED).append(EQU).append("false")
             }
         }
-        completeIssuerAppActivation!!.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+        completeIssuerAppActivation?.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             completeIssuerAppActivationString.setLength(0)
             if (isChecked) {
                 completeIssuerAppActivationString.append(AMP).append(COMPLETE_ISSUER_APP_ACTIVATION).append(EQU).append("true")
@@ -129,11 +139,11 @@ class PushProvisioningFragment : Fragment() {
 
     private fun getDeepLink(): String {
         val callBackUrlEtString = StringBuilder()
-        if (!TextUtils.isEmpty(callBackUrlEt!!.text)) {
+        if (!TextUtils.isEmpty(callBackUrlEt?.text)) {
             callBackUrlEtString.append(AMP)
                 .append(CALLBACK_URL)
                 .append(EQU)
-                .append(callBackUrlEt!!.text)
+                .append(callBackUrlEt?.text)
         }
         deepLink = StringBuilder(GARMIN_PAY_URL)
         return deepLink.append(issuerString)
