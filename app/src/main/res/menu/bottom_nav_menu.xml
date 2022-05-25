@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/app_to_app"
-        android:title="App 2 App"
-        android:icon="@drawable/ic_app_to_app" />
-    <item
         android:id="@+id/push_prov"
-        android:title="Push Prov"
-        android:icon="@drawable/ic_push_prov"/>
+        android:title="In App Simulator"
+        android:icon="@drawable/ic_in_app_simulator"/>
     <item
         android:id="@+id/push_prov_custom"
-        android:title="Push Prov MC"
-        android:icon="@drawable/ic_push_prov"/>
+        android:title="Web Simulator"
+        android:icon="@drawable/ic_web_simulator"/>
 </menu>
