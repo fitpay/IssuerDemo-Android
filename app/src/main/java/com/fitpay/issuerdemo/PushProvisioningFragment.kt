@@ -22,6 +22,7 @@ class PushProvisioningFragment : Fragment() {
     private val PUSH_DATA = "pushData"
     private val PUSH_ACCOUNT_RECEIPT = "pushAccountReceipts"
     private val CALLBACK_URL = "callbackURL"
+    private val CALLBACK_URL_DEFAULT_VALUE = "https://tokenconnect.mcsrcteststore.com/"
     private val CALLBACK_REQUIRED = "callbackRequired"
     private val COMPLETE_ISSUER_APP_ACTIVATION = "completeIssuerAppActivation"
     private val APPROVED_MASTER_CARD = "TST-MCC7F0AE-298E-48EB-AA43-A7C40B32DDDE"
@@ -94,7 +95,9 @@ class PushProvisioningFragment : Fragment() {
     private fun initViews(view: View) {
         issuerList = view.findViewById(R.id.issuer_list)
         callBackUrlEt = view.findViewById(R.id.callback_url_et)
+        callBackUrlEt?.setText(CALLBACK_URL_DEFAULT_VALUE)
         callbackUrlRequired = view.findViewById(R.id.callback_required_chk)
+        callbackUrlRequired?.isChecked = true
         completeIssuerAppActivation = view.findViewById(R.id.complete_issuer_app_act_chk)
         btnSend = view.findViewById(R.id.btnSend)
         btnSend?.setOnClickListener {
@@ -119,21 +122,37 @@ class PushProvisioningFragment : Fragment() {
         issuerList?.onItemSelectedListener = itemSelectedListener
 
         //Checkboxes
-        callbackUrlRequired?.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            callbackUrlRequiredString.setLength(0)
-            if (isChecked) {
-                callbackUrlRequiredString.append(AMP).append(CALLBACK_REQUIRED).append(EQU).append("true")
-            } else {
-                callbackUrlRequiredString.append(AMP).append(CALLBACK_REQUIRED).append(EQU).append("false")
-            }
+        callbackUrlRequired?.isChecked?.let {
+            appendCallbackUrlRequired(it)
         }
+
+        callbackUrlRequired?.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            appendCallbackUrlRequired(isChecked)
+        }
+
+        completeIssuerAppActivation?.isChecked?.let {
+            appendCompleteIssuerAppActivation(it)
+        }
+
         completeIssuerAppActivation?.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            completeIssuerAppActivationString.setLength(0)
-            if (isChecked) {
-                completeIssuerAppActivationString.append(AMP).append(COMPLETE_ISSUER_APP_ACTIVATION).append(EQU).append("true")
-            } else {
-                completeIssuerAppActivationString.append(AMP).append(COMPLETE_ISSUER_APP_ACTIVATION).append(EQU).append("false")
-            }
+            appendCompleteIssuerAppActivation(isChecked)
+        }
+    }
+
+    private fun appendCallbackUrlRequired(isChecked: Boolean) {
+        callbackUrlRequiredString.setLength(0)
+        if (isChecked) {
+            callbackUrlRequiredString.append(AMP).append(CALLBACK_REQUIRED).append(EQU).append("true")
+        } else {
+            callbackUrlRequiredString.append(AMP).append(CALLBACK_REQUIRED).append(EQU).append("false")
+        }
+    }
+    private fun appendCompleteIssuerAppActivation(isChecked: Boolean) {
+        completeIssuerAppActivationString.setLength(0)
+        if (isChecked) {
+            completeIssuerAppActivationString.append(AMP).append(COMPLETE_ISSUER_APP_ACTIVATION).append(EQU).append("true")
+        } else {
+            completeIssuerAppActivationString.append(AMP).append(COMPLETE_ISSUER_APP_ACTIVATION).append(EQU).append("false")
         }
     }
 
