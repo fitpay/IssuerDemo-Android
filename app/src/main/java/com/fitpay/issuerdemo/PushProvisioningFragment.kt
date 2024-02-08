@@ -22,7 +22,7 @@ class PushProvisioningFragment : Fragment() {
     private val PUSH_DATA = "pushData"
     private val PUSH_ACCOUNT_RECEIPT = "pushAccountReceipts"
     private val CALLBACK_URL = "callbackURL"
-    private val CALLBACK_URL_DEFAULT_VALUE = "https://tokenconnect.mcsrcteststore.com/"
+    private val CALLBACK_URL_DEFAULT_VALUE = "https://tokenconnect.mcsrcteststore.com/tokenization-results"
     private val CALLBACK_REQUIRED = "callbackRequired"
     private val COMPLETE_ISSUER_APP_ACTIVATION = "completeIssuerAppActivation"
     private val APPROVED_MASTER_CARD = "TST-MCC7F0AE-298E-48EB-AA43-A7C40B32DDDE"
