@@ -9,9 +9,8 @@
     <style name="buttonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/primary_button</item>
         <item name="android:textColor">@color/colorButtonText</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:padding">16dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:padding">12dp</item>
     </style>
 
     <style name="editTextStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
