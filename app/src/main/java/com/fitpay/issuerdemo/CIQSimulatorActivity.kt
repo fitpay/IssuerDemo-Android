@@ -47,7 +47,7 @@ class CIQSimulatorActivity : AppCompatActivity() {
         private val TAG = CIQSimulatorActivity::class.java.canonicalName
 
         private const val GARMIN_PAY_URL = "https://connect.garmin.com/payment/add"
-        private const val CIQ_CALLBACK_URL = "com.garmin.connectiq"
-        private const val CALLBACK_URL = "callbackUrl"
+        private const val CIQ_CALLBACK_URL = "connectiq://details/?deviceId=fenix7x&amp;appId=0e1f20d8-c2c9-493e-be19-78eb55f1a373"
+        private const val CALLBACK_URL = "callbackURL"
     }
 }
